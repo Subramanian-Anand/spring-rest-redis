@@ -1,8 +1,15 @@
 package org.springredis.services;
 
+import java.util.Set;
+
 public interface CRUDService {
     String getKeyValue(String redisKey);
-    boolean putKeyValue(String redisKey, String redisValue);
+
+    boolean setKeyValue(String redisKey, String redisValue);
+
     boolean deleteKeyValue(String redisKey);
+
     boolean containsKeyValue(String redisKey);
+
+    Set<String> listKeys(String pattern);
 }

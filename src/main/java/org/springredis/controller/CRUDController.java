@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springredis.services.CRUDService;
 
+import java.util.Set;
+
 @RestController
 public class CRUDController {
 
@@ -18,7 +20,12 @@ public class CRUDController {
     }
 
     @RequestMapping(value = "/setkeyvalue/{rediskey}/{redisvalue}")
-    public boolean putKeyValue(@PathVariable("rediskey") String redisKey, @PathVariable("redisvalue") String redisValue) {
-        return this.crudService.putKeyValue(redisKey, redisValue);
+    public boolean setKeyValue(@PathVariable("rediskey") String redisKey, @PathVariable("redisvalue") String redisValue) {
+        return this.crudService.setKeyValue(redisKey, redisValue);
+    }
+
+    @RequestMapping(value = "/listkeys/{pattern}")
+    public Set<String> listKeys(@PathVariable("pattern") String pattern) {
+        return this.crudService.listKeys(pattern);
     }
 }

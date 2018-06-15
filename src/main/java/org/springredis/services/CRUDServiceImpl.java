@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 @Service
 public class CRUDServiceImpl implements CRUDService {
@@ -20,7 +21,7 @@ public class CRUDServiceImpl implements CRUDService {
     }
 
     @Override
-    public boolean putKeyValue(String redisKey, String redisValue) {
+    public boolean setKeyValue(String redisKey, String redisValue) {
         this.ops.set(redisKey, redisValue);
         return true;
     }
@@ -33,5 +34,10 @@ public class CRUDServiceImpl implements CRUDService {
     @Override
     public boolean containsKeyValue(String redisKey) {
         return false;
+    }
+
+    @Override
+    public Set<String> listKeys(String pattern) {
+        return this.template.keys(pattern);
     }
 }
