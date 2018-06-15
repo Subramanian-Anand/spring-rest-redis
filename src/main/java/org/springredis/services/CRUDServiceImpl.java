@@ -28,7 +28,7 @@ public class CRUDServiceImpl implements CRUDService {
 
     @Override
     public boolean deleteKeyValue(String redisKey) {
-        return false;
+        return this.template.delete(redisKey);
     }
 
     @Override

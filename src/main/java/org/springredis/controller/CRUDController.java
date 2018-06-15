@@ -14,23 +14,36 @@ public class CRUDController {
     @Autowired
     CRUDService crudService;
 
-    @RequestMapping(value = "/getkeyvalue/{rediskey}")
+    @RequestMapping("/")
+    public String index() {
+        String response = "Redis OPS";
+        response += "\n\n\r1./get/rediskey\n2./set/rediskey\n3./delete/rediskey\n4.keys\n5.keys/<pattern>";
+
+        return response;
+    }
+
+    @RequestMapping(value = "/get/{rediskey}")
     public String getKeyValue(@PathVariable("rediskey") String redisKey) {
         return this.crudService.getKeyValue(redisKey);
     }
 
-    @RequestMapping(value = "/setkeyvalue/{rediskey}/{redisvalue}")
+    @RequestMapping(value = "/set/{rediskey}/{redisvalue}")
     public boolean setKeyValue(@PathVariable("rediskey") String redisKey, @PathVariable("redisvalue") String redisValue) {
         return this.crudService.setKeyValue(redisKey, redisValue);
     }
 
-    @RequestMapping(value = "/listkeys")
+    @RequestMapping(value = "/delete/{rediskey}")
+    public boolean deleteKey(@PathVariable("rediskey") String redisKey) {
+        return this.crudService.deleteKeyValue(redisKey);
+    }
+
+    @RequestMapping(value = "/keys")
     public Set<String> listKeysDefault() {
         final String pattern = "*";
         return this.crudService.listKeys(pattern);
     }
 
-    @RequestMapping(value = "/listkeys/{pattern}")
+    @RequestMapping(value = "/keys/{pattern}")
     public Set<String> listKeysPattern(@PathVariable("pattern") String pattern) {
         return this.crudService.listKeys(pattern);
     }
