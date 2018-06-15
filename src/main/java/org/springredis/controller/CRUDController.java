@@ -24,8 +24,14 @@ public class CRUDController {
         return this.crudService.setKeyValue(redisKey, redisValue);
     }
 
+    @RequestMapping(value = "/listkeys")
+    public Set<String> listKeysDefault() {
+        final String pattern = "*";
+        return this.crudService.listKeys(pattern);
+    }
+
     @RequestMapping(value = "/listkeys/{pattern}")
-    public Set<String> listKeys(@PathVariable("pattern") String pattern) {
+    public Set<String> listKeysPattern(@PathVariable("pattern") String pattern) {
         return this.crudService.listKeys(pattern);
     }
 }
