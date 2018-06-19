@@ -1,6 +1,11 @@
 # Spring-rest-redis
 This project enables all the Redis Operations as Rest calls via Spring Boot
 
+## Pre-requisites
+```shell
+docker run --name redis-server -p 6379:6379 -d redis
+```
+
 ## Following are the avaibles operaitons
 URL | Description | Example
 --- | --- | ---
