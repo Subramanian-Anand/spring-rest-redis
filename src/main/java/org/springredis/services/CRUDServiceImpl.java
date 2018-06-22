@@ -17,23 +17,39 @@ public class CRUDServiceImpl implements CRUDService {
 
     @Override
     public String getKeyValue(String redisKey) throws RedisConnectionFailure {
-        return this.ops.get(redisKey);
+        try {
+            return this.ops.get(redisKey);
+        } catch (Exception e) {
+            throw new RedisConnectionFailure("Redis Connection Failure");
+        }
     }
 
     @Override
     public boolean setKeyValue(String redisKey, String redisValue) throws RedisConnectionFailure {
-        this.ops.set(redisKey, redisValue);
-        return true;
+        try {
+            this.ops.set(redisKey, redisValue);
+            return true;
+        } catch (Exception e) {
+            throw new RedisConnectionFailure("Redis Connection Failure");
+        }
     }
 
     @Override
     public boolean deleteKeyValue(String redisKey) throws RedisConnectionFailure {
-        return this.template.delete(redisKey);
+        try {
+            return this.template.delete(redisKey);
+        } catch (Exception e) {
+            throw new RedisConnectionFailure("Redis Connection Failure");
+        }
     }
 
     @Override
     public boolean containsKeyValue(String redisKey) throws RedisConnectionFailure {
-        return false;
+        try {
+            return this.template.hasKey(redisKey);
+        } catch (Exception e) {
+            throw new RedisConnectionFailure("Redis Connection Failure");
+        }
     }
 
     @Override
