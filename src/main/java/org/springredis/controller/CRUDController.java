@@ -19,7 +19,6 @@ public class CRUDController {
     CRUDService crudService;
 
     @ApiOperation("This will get the value of the rediskey passed in the url")
-//    @ApiResponses(value = {@ApiResponse(code = 100, message = "This is a test")})
     @GetMapping(value = "/get/{rediskey}")
     public String getKeyValue(@PathVariable("rediskey") String redisKey) {
         return this.crudService.getKeyValue(redisKey);
