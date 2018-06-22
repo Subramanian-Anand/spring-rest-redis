@@ -11,6 +11,7 @@ URL | Description | Example
 --- | --- | ---
 **/get/\<rediskey\>** | This is used to get value of the key, 'name' | */get/name*
 **/set/\<rediskey\>/\<redisvalue\>** | This is used to set the value, 'kaushik' for the key, 'name' | */set/name/kaushik*
+**/has/\<rediskey\>** | This is used to check if the given key is present in Redis | */has/name*
 **/keys** | This is used to get all the keys in Redis | */keys*
 **/keys/\<pattern\>** | This is used to get all the keys in Redis with the given pattern | */keys/na**
 **/delete/\<rediskey\>** | This is used to get all the keys in Redis with the given pattern | */delete/name*

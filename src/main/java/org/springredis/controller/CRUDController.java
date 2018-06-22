@@ -30,8 +30,15 @@ public class CRUDController {
         return this.crudService.setKeyValue(redisKey, redisValue);
     }
 
+    @ApiOperation("This will check if the given key is present in Redis")
+    @GetMapping("/has/{rediskey}")
+    public boolean hasKeyValue(@PathVariable("rediskey") String redisKey) {
+        return this.crudService.containsKeyValue(redisKey);
+    }
+
     @ApiOperation("This will delete the rediskey passed in the url")
     @PutMapping(value = "/delete/{rediskey}")
+
     public boolean deleteKey(@PathVariable("rediskey") String redisKey) {
         return this.crudService.deleteKeyValue(redisKey);
     }
