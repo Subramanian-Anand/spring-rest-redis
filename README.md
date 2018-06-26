@@ -6,6 +6,11 @@ This project enables all the Redis Operations as Rest calls via Spring Boot
 docker run --name redis-server -p 6379:6379 -d redis
 ```
 
+## Access the latest Binary formgit  docker hub
+```shell
+docker run --name spring-rest-redis --rm --network host gtskaushik/spring-rest-redis
+```
+
 ## Following are the avaibles operaitons
 URL | Description | Example
 --- | --- | ---
