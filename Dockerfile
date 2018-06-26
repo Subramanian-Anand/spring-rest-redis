@@ -1,9 +1,12 @@
 FROM openjdk:alpine
 
-RUN java -version
+MAINTAINER selva.kaushik@machinepulse.com
 
-COPY build/libs/spring-rest-redis-0.0.1-SNAPSHOT.jar /spring-rest-redis.jar
+RUN java -version
 
 VOLUME /tmp
 
-CMD ["java", "-jar", "spring-rest-redis.jar"]
+COPY build/libs/spring-rest-redis-0.0.1-SNAPSHOT.jar /spring-rest-redis.jar
+COPY src/main/resources/application.properties /application.properties
+
+CMD ["java", "-jar", "-Dspring.config.location=/application.properties", "spring-rest-redis.jar"]

@@ -9,7 +9,7 @@ docker run --name redis-server -p 6379:6379 -d redis
 ## Docker Binary (Run Pre-requisits first)
 ```shell
 docker pull gtskaushik/spring-rest-redis
-docker run --name spring-rest-redis --network host gtskaushik/spring-rest-redis
+docker run --name spring-rest-redis -v <path to application.properties>:/application.properties --network host gtskaushik/spring-rest-redis
 ```
 
 ## Following are the avaibles operaitons

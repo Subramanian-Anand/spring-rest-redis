@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 public class RedisConfig {
     @Value("${redis.host:localhost}")
     private String host;
-    @Value("${redis.port:{6379}}")
+    @Value("${redis.port:6379}")
     private int port;
-    @Value("${redis.db:{0}}")
+    @Value("${redis.db:0}")
     private int db;
     @Value("${redis.password:}")
     private String pass;
-    @Value("${redis.timeout:{10000}}")
+    @Value("${redis.timeout:10000}")
     private int timeout;
 }
