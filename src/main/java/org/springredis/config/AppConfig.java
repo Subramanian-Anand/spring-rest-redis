@@ -22,7 +22,10 @@ class AppConfig {
         redisStandaloneConfiguration.setDatabase(redisConfig.getDb());
         RedisPassword redisPassword = RedisPassword.of(redisConfig.getPass());
         redisStandaloneConfiguration.setPassword(redisPassword);
-        return new LettuceConnectionFactory(redisStandaloneConfiguration);
+
+        RedisConnectionFactory connectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
+        ((LettuceConnectionFactory) connectionFactory).setTimeout(redisConfig.getTimeout());
+        return connectionFactory;
     }
 
     @Bean

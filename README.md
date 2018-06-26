@@ -15,6 +15,7 @@ URL | Description | Example
 **/keys** | This is used to get all the keys in Redis | */keys*
 **/keys/\<pattern\>** | This is used to get all the keys in Redis with the given pattern | */keys/na**
 **/delete/\<rediskey\>** | This is used to get all the keys in Redis with the given pattern | */delete/name*
+**/reactiveget/\<rediskey\>/\<durationinsec\>** | This gives a SSE as response for every given duration | */reactiveget/name/2
 
 ## Road Map
 1. Delete with pattern
@@ -26,10 +27,9 @@ URL | Description | Example
     * set timeseries list
     * SSE on timeseries list
     * Socket on timeseries list
-3. SSE eanbled get on a key
-4. Socket enabled get on a key
-5. SSE enabled get on a key pattern
-6. Socket enabled get on a key pattern
+3. Socket enabled get on a key
+4. SSE enabled get on a key pattern
+5. Socket enabled get on a key pattern
 
 
 
