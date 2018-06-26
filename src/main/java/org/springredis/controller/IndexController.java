@@ -9,7 +9,7 @@ public class IndexController {
 
     @GetMapping("/")
     @ApiIgnore
-    public String getIndexPage(){
+    public String getIndexPage() {
         return "redirect:/swagger-ui.html";
     }
 }
