@@ -3,10 +3,7 @@ package org.springredis.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springredis.services.CRUDService;
 
 import java.util.Set;
@@ -52,6 +49,7 @@ public class CRUDController {
 
     @ApiOperation("This will list all the keys present in redis for the given pattern")
     @GetMapping(value = "/keys/{pattern}")
+    @CrossOrigin
     public Set<String> listKeysPattern(@PathVariable("pattern") String pattern) {
         return this.crudService.listKeys(pattern);
     }
