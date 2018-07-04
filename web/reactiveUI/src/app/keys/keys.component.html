@@ -1,16 +1,16 @@
 <p>
-  Keys Pattern: <input [(ngModel)]="keypattern"/>
+  Keys Pattern: <input [(ngModel)]="keypattern" class="form-control"/>
 </p>
 
 <p>
-  Table Config: <input [(ngModel)]="tblConf"/>
+  Table Config: <input [(ngModel)]="tblConf" class="form-control"/>
 </p>
 
 <!-- <p>
   Duration (in seconds): <input [(ngModel)]="duration" value="Duration"/>
 </p> -->
-<p><input type="button" value="Start Monitor" (click)="startMonitor()">
-  <input type="button" value="Stop Monitor" (click)="stopMonitor()"></p>
+<p><input type="button" value="Start Monitor" (click)="startMonitor()" class="btn btn-success">
+  <input type="button" value="Stop Monitor" (click)="stopMonitor()" class="btn btn-danger"></p>
 
 <div class="container">
   <p>Number of parameters: {{keysToMonitor.length}}</p>
