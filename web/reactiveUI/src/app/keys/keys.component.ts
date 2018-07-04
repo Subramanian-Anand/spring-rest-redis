@@ -10,32 +10,40 @@ export class KeysComponent implements OnInit {
 
   keyval = {}
   duration = 10
-  keypattern = "*"
+  keypattern = "*MFM*OUT*#act_p"
   keysToMonitor: any = []
   sourceConnections = []
 
-  /** tblData = {
+  tblConf = JSON.stringify({
               "DeviceId": "rediskey.split('#')[8]",
               "DeviceType": "rediskey.split('#')[4]",
               "Parameter": "rediskey.split('#')[9]",
               "Value": "redisvalue['value']",
               "Timestamp": "redisvalue['ts']",
               "Status": "redisvalue['status']"
-            } **/
-    tblData = {
+            })
+  /** tblConf = {
       "DeviceId": "rediskey.split('-')[0]",
       "Parameter": "rediskey.split('-')[1]",
       "Timestamp": "redisvalue",
       "Value": "redisvalue"
-  }
-  tblCols = Object.keys(this.tblData)
+  } **/
+  tblData = {}
+  tblCols = []
 
 
   constructor(private http: HttpClient) {
   }
 
+  initTbl() {
+    var that = this;
+    that.tblData = JSON.parse(that.tblConf);
+    that.tblCols = Object.keys(that.tblData);
+  }
+
   startMonitor(){
   	var that = this;
+  	that.initTbl();
   	that.stopMonitor();
   	this.http.get("http://localhost:8080/keys/" + encodeURIComponent(this.keypattern))
   	.subscribe(keysData => {
