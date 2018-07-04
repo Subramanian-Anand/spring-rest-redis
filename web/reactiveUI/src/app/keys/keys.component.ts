@@ -10,11 +10,28 @@ export class KeysComponent implements OnInit {
 
   keyval = {}
   duration = 10
-  keypattern = "*IC11-WS-TR*"
+  keypattern = "*"
   keysToMonitor: any = []
   sourceConnections = []
 
-  constructor(private http: HttpClient) { 
+  /** tblData = {
+              "DeviceId": "rediskey.split('#')[8]",
+              "DeviceType": "rediskey.split('#')[4]",
+              "Parameter": "rediskey.split('#')[9]",
+              "Value": "redisvalue['value']",
+              "Timestamp": "redisvalue['ts']",
+              "Status": "redisvalue['status']"
+            } **/
+    tblData = {
+      "DeviceId": "rediskey.split('-')[0]",
+      "Parameter": "rediskey.split('-')[1]",
+      "Timestamp": "redisvalue",
+      "Value": "redisvalue"
+  }
+  tblCols = Object.keys(this.tblData)
+
+
+  constructor(private http: HttpClient) {
   }
 
   startMonitor(){
@@ -42,10 +59,16 @@ export class KeysComponent implements OnInit {
   	});
   }
 
+  eval(exp, rediskey, redisvalue) {
+    var that = this;
+
+    return eval(exp);
+  }
+
   subscriber1(keysData) {
   	var that = this;
   	var url = 'http://localhost:8080/reactivegets/'+encodeURIComponent(that.keypattern)+"/"+that.duration;
-  	
+
  	var source = new EventSource(url);
  	that.sourceConnections.push(source);
 	source.addEventListener('message', function(data){

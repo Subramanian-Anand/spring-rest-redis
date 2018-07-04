@@ -2,6 +2,10 @@
   Keys Pattern: <input [(ngModel)]="keypattern"/>
 </p>
 
+<!--<p>
+  Table Config: <input [(ngModel)]="tblCols"/>
+</p>-->
+
 <!-- <p>
   Duration (in seconds): <input [(ngModel)]="duration" value="Duration"/>
 </p> -->
@@ -13,22 +17,25 @@
 	<table>
 		<thead>
 			<tr>
-				<th>DeviceId</th>
-				<th>DeviceType</th>
-				<th>Parameter</th>
-				<th>Value</th>
-				<th>Timestamp</th>
-				<th>Status</th>
+        <th *ngFor="let colname of tblCols">{{colname}}</th>
+				<!--<th>DeviceId</th>-->
+				<!--<th>DeviceType</th>-->
+				<!--<th>Parameter</th>-->
+				<!--<th>Value</th>-->
+				<!--<th>Timestamp</th>-->
+				<!--<th>Status</th>-->
 			</tr>
 		</thead>
 		<tbody>
 			<tr *ngFor="let rediskey of keysToMonitor; let i = index">
-				<td>{{rediskey.split('#')[8]}}</td>
-				<td>{{rediskey.split('#')[4]}}</td>
-				<td>{{rediskey.split('#')[9]}}</td>
-				<td>{{keyval[rediskey].value}}</td>
-				<td>{{keyval[rediskey].ts}}</td>
-				<td>{{keyval[rediskey].status}}</td>
+        <td *ngFor="let colname of tblCols">{{eval(tblData[colname], rediskey, keyval[rediskey])}}</td>
+				<!--<td>{{rediskey.split('#')[8]}}</td>-->
+				<!--<td>{{rediskey.split('#')[4]}}</td>-->
+				<!--<td>{{rediskey.split('#')[9]}}</td>-->
+				<!--<td>{{keyval[rediskey].value}}</td>-->
+				<!--<td>{{keyval[rediskey].ts}}</td>-->
+				<!--<td>{{keyval[rediskey].status}}</td>-->
+        <!--<td>{{keyval[rediskey] | json}}</td>-->
 			</tr>
 		</tbody>
 	</table>
