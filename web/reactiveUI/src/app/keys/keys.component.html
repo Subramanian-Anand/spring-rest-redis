@@ -1,27 +1,30 @@
-<span>
-  <h2 style="font-weight:bold;" align="center">
+<div style="background-color:black;">
+  <span>
+  <h2 style="font-weight:bold;color:white" align="center">
     Redis Keys Monitor
   </h2>
 </span>
-<div class="container">
-  <label class="col-lg-1" style="font-weight:bold;">Keys Pattern</label>
-  <input [(ngModel)]="keypattern" class="col-lg-2"/>
-  <label class="col-lg-1" style="font-weight:bold;">Table Config</label>
-  <textarea [(ngModel)]="tblConf" class="col-lg-8" style="top:12px;"></textarea>
-  <br/>
-  <br/>
-</div>
+  <div class="container">
+    <label class="col-lg-1" style="font-weight:bold;color:white">Keys Pattern</label>
+    <input [(ngModel)]="keypattern" class="col-lg-2"/>
+    <label class="col-lg-1" style="font-weight:bold;color:white">Table Config</label>
+    <textarea [(ngModel)]="tblConf" class="col-lg-8" style="top:12px;"></textarea>
+    <br/>
+    <br/>
+  </div>
 
-<div class="container">
-  <input type="button" value="Start Monitor" (click)="startMonitor()" class="btn btn-success col-lg-2 offset-lg-1">
-  <input type="button" value="Stop Monitor" (click)="stopMonitor()" class="btn btn-danger col-lg-2 offset-lg-1">
+  <div class="container">
+    <input type="button" value="Start Monitor" (click)="startMonitor()" class="btn btn-success col-lg-2 offset-lg-1">
+    <input type="button" value="Stop Monitor" (click)="stopMonitor()" class="btn btn-danger col-lg-2 offset-lg-1">
+  </div>
+  <br/>
 </div>
 
 <div class="container">
   <br/>
   <p style="font-weight:bold;">Number of parameters: {{keysToMonitor.length}}</p>
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered table-condensed">
+  <div>
+    <table class="table table-striped table-bordered table-condensed" style="overflow-y:auto">
       <thead>
       <tr>
         <th *ngFor="let colname of tblCols">{{colname}}</th>
