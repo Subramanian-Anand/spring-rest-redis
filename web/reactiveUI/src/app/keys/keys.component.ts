@@ -14,20 +14,20 @@ export class KeysComponent implements OnInit {
   keysToMonitor: any = []
   sourceConnections = []
 
-  tblConf = JSON.stringify({
+  /**tblConf = JSON.stringify({
               "DeviceId": "rediskey.split('#')[8]",
               "DeviceType": "rediskey.split('#')[4]",
               "Parameter": "rediskey.split('#')[9]",
               "Value": "redisvalue['value']",
               "Timestamp": "redisvalue['ts']",
               "Status": "redisvalue['status']"
-            })
-  /** tblConf = {
+            })**/
+  tblConf = JSON.stringify({
       "DeviceId": "rediskey.split('-')[0]",
       "Parameter": "rediskey.split('-')[1]",
       "Timestamp": "redisvalue",
       "Value": "redisvalue"
-  } **/
+  })
   tblData = {}
   tblCols = []
 
@@ -47,6 +47,7 @@ export class KeysComponent implements OnInit {
   	that.stopMonitor();
   	this.http.get("http://localhost:8080/keys/" + encodeURIComponent(this.keypattern))
   	.subscribe(keysData => {
+  	  keysData.sort();
   		that.keysToMonitor = keysData;
   		that.subscriber(keysData);
   	})
