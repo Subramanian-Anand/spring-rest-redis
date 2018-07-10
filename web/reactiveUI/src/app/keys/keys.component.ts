@@ -1,5 +1,7 @@
 import { Input, Output, EventEmitter, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as SockJS from './sockjs.min.js';
+import { Stomp } from './stomp.min.js';
 
 @Component({
   selector: 'app-keys',
@@ -10,9 +12,10 @@ export class KeysComponent implements OnInit {
 
   keyval = {}
   duration = 10
-  keypattern = "*INV*#act_p"
+  keypattern = "MFM*OUT*#act_p"
   keysToMonitor: any = []
   sourceConnections = []
+  stompClient: any;
 
 
   tblConf = JSON.stringify({
@@ -26,8 +29,8 @@ export class KeysComponent implements OnInit {
   /**tblConf = JSON.stringify({
       "DeviceId": "rediskey.split('-')[0]",
       "Parameter": "rediskey.split('-')[1]",
-      "Timestamp": "redisvalue",
-      "Value": "redisvalue"
+      "Timestamp": "redisvalue.ts",
+      "Value": "redisvalue.value"
   })**/
   tblData = {}
   tblCols = []
@@ -43,16 +46,35 @@ export class KeysComponent implements OnInit {
   }
 
   startMonitor(){
-  	var that = this;
-  	that.initTbl();
-  	that.stopMonitor();
-  	this.http.get("http://localhost:8080/keys/" + encodeURIComponent(this.keypattern))
-  	.subscribe(keysData => {
-  	  let keys = keysData as Array<string>;
-  	  keys.sort();
-  		that.keysToMonitor = keys;
-  		that.subscriber(keysData);
-  	})
+    var that = this
+    var socket = new SockJS('http://localhost:8080/gs-guide-websocket');
+    that.stompClient = Stomp.over(socket);
+    that.stompClient.debug = null;
+    that.stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        that.initTbl();
+        that.stopMonitor();
+        that.http.get("http://localhost:8080/keys/" + encodeURIComponent(that.keypattern))
+        .subscribe(keysData => {
+          //console.log('keysData', keysData)
+          let keys = keysData as Array<string>;
+          keys.sort();
+          that.keysToMonitor = keys;
+          that.webSocketSubscriber(keysData);
+        })
+    });
+  }
+
+  webSocketSubscriber(keysData) {
+    var that = this
+    keysData.forEach((key, index) => {
+      that.stompClient.subscribe('/keySubscription/'+ key, function (data) {
+          var json = JSON.parse(data.body);
+          console.log('json.redisvalue', json.redisvalue)
+          that.keyval[key] = json.redisvalue;
+      });
+      that.stompClient.send("/app/hello/" + key, {}, JSON.stringify({}));
+    });
   }
 
   subscriber(keysData) {
@@ -73,7 +95,17 @@ export class KeysComponent implements OnInit {
   eval(exp, rediskey, redisvalue) {
     var that = this;
 
-    return eval(exp);
+    var result = "";
+
+    try{
+      result = eval(exp);
+    }catch(e){
+      //console.log(rediskey, redisvalue, exp, e)
+      //console.log(rediskey, redisvalue)
+      result = "NA"
+    }
+
+    return result;
   }
 
   subscriber1(keysData) {
@@ -94,7 +126,7 @@ export class KeysComponent implements OnInit {
   stopMonitor(){
   	var that = this;
   	that.sourceConnections.forEach((source) => {
-  	console.log(source)
+  	  //console.log(source)
 	  	source.close();
   	});
 

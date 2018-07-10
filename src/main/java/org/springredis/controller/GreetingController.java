@@ -34,10 +34,14 @@ public class GreetingController {
 
     @MessageMapping("/hello/{rediskey}")
     @SendTo("/keySubscription/{rediskey}")
+    @CrossOrigin
     public String greeting(@DestinationVariable("rediskey") String redisKey) throws Exception {
         log.info("RedisKey --> " + redisKey);
         redisMessageListenerContainer.addMessageListener(messageListenerAdapter, new ChannelTopic("__keyspace@0__:"+ redisKey));
         log.info("RedisValue --> " + crudService.getKeyValue(redisKey));
-        return crudService.getKeyValue(redisKey);
+
+        String redisValue = crudService.getKeyValue(redisKey);
+        String payload = "{\"rediskey\":\""+redisKey+"\",\"redisvalue\":"+redisValue+"}";
+        return payload;
     }
 }

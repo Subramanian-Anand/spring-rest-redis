@@ -7,6 +7,7 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springredis.services.CRUDService;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.Arrays;
 
@@ -29,7 +30,8 @@ public class RedisSubscriber implements MessageListener {
         if(command.equals("set")){
             String redisKey = channel.split(":")[1];
             String redisValue = crudService.getKeyValue(redisKey);
-            template.convertAndSend("/keySubscription/" + redisKey, redisValue);
+            String payload = "{\"rediskey\":\""+redisKey+"\",\"redisvalue\":"+redisValue+"}";
+            template.convertAndSend("/keySubscription/" + redisKey, payload);
         }
     }
 }
