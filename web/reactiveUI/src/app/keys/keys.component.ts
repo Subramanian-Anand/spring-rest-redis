@@ -14,6 +14,7 @@ export class KeysComponent implements OnInit {
   keysToMonitor: any = []
   sourceConnections = []
 
+
   tblConf = JSON.stringify({
               "DeviceId": "rediskey.split('#')[8]",
               "DeviceType": "rediskey.split('#')[4]",
