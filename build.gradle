@@ -53,9 +53,14 @@ task angularBuild(type: Exec) {
     doFirst {
         println 'Trying to build Angular App'
     }
-    workingDir 'web/reactiveUI/'
-    commandLine "pwd"
-    commandLine 'ng', 'build', '--prod'
+    exec{
+        workingDir 'web/reactiveUI/'
+        commandLine 'npm', 'install'
+    }
+    exec{
+        workingDir 'web/reactiveUI/'
+        commandLine 'ng', 'build', '--prod'
+    }
     doLast {
         println 'Angular Build Completed'
     }
