@@ -48,3 +48,28 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
 }
+
+task angularBuild(type: Exec) {
+    doFirst {
+        println 'Trying to build Angular App'
+    }
+    workingDir 'web/reactiveUI/'
+    commandLine "pwd"
+    commandLine 'ng', 'build', '--prod'
+    doLast {
+        println 'Angular Build Completed'
+    }
+}
+
+task springAngularMerge() {
+    tasks.angularBuild.execute()
+    delete "src/main/resources/static"
+    mkdir 'src/main/resources/static'
+    copy {
+        from 'web/reactiveUI/dist/reactiveUI/'
+        into 'src/main/resources/static/'
+    }
+    doLast {
+        println 'Merged the Angular binaries into Spring Boot'
+    }
+}

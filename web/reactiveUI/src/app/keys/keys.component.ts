@@ -2,6 +2,7 @@ import { Input, Output, EventEmitter, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as SockJS from './sockjs.min.js';
 import { Stomp } from './stomp.min.js';
+import { isDevMode } from '@angular/core';
 
 @Component({
   selector: 'app-keys',
@@ -16,6 +17,7 @@ export class KeysComponent implements OnInit {
   keysToMonitor: any = []
   sourceConnections = []
   stompClient: any;
+  domainUrlPrefix = isDevMode() ? "http://localhost:8080/" : "/"
 
 
   tblConf = JSON.stringify({
@@ -47,14 +49,14 @@ export class KeysComponent implements OnInit {
 
   startMonitor(){
     var that = this
-    var socket = new SockJS('http://localhost:8080/gs-guide-websocket');
+    var socket = new SockJS(that.domainUrlPrefix+'gs-guide-websocket');
     that.stompClient = Stomp.over(socket);
     that.stompClient.debug = null;
     that.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         that.initTbl();
         that.stopMonitor();
-        that.http.get("http://localhost:8080/keys/" + encodeURIComponent(that.keypattern))
+        that.http.get(that.domainUrlPrefix + "keys/" + encodeURIComponent(that.keypattern))
         .subscribe(keysData => {
           //console.log('keysData', keysData)
           let keys = keysData as Array<string>;
@@ -81,7 +83,7 @@ export class KeysComponent implements OnInit {
   	var that = this;
 
   	keysData.forEach((key, index) => {
-  	 	var url = 'http://localhost:8080/reactivegetSSE/'+encodeURIComponent(key)+'/';
+  	 	var url = that.domainUrlPrefix + 'reactivegetSSE/'+encodeURIComponent(key)+'/';
   	 	var source = new EventSource(url);
   	 	that.sourceConnections.push(source);
         source.addEventListener('message', function(data){
@@ -110,7 +112,7 @@ export class KeysComponent implements OnInit {
 
   subscriber1(keysData) {
   	var that = this;
-  	var url = 'http://localhost:8080/reactivegets/'+encodeURIComponent(that.keypattern)+"/"+that.duration;
+  	var url = that.domainUrlPrefix + 'reactivegets/'+encodeURIComponent(that.keypattern)+"/"+that.duration;
 
  	var source = new EventSource(url);
  	that.sourceConnections.push(source);
