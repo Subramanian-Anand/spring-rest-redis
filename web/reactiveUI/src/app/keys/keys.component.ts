@@ -75,6 +75,7 @@ export class KeysComponent implements OnInit {
     var that = this
     keysData.forEach((key, index) => {
       that.stompClient.subscribe('/keySubscription/'+ key, function (data) {
+          console.log(data.body)
           var json = JSON.parse(data.body);
           console.log('json.redisvalue', json.redisvalue)
           that.keyval[key] = json.redisvalue;

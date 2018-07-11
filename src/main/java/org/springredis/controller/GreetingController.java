@@ -41,7 +41,7 @@ public class GreetingController {
         log.info("RedisValue --> " + crudService.getKeyValue(redisKey));
 
         String redisValue = crudService.getKeyValue(redisKey);
-        String payload = "{\"rediskey\":\""+redisKey+"\",\"redisvalue\":"+redisValue+"}";
+        String payload = "{\"rediskey\":\""+redisKey+"\",\"redisvalue\":"+redisValue.replaceAll("'","\"")+"}";
         return payload;
     }
 }

@@ -59,7 +59,7 @@ task angularBuild() {
     }
     exec{
         workingDir 'web/reactiveUI/'
-        commandLine 'ng', 'build', '--prod'
+        commandLine 'ng', 'build', '--prod', '--output-hashing', 'none'
     }
     doLast {
         println 'Angular Build Completed'
