@@ -49,7 +49,7 @@ dependencies {
     testCompile('io.projectreactor:reactor-test')
 }
 
-task angularBuild(type: Exec) {
+task angularBuild() {
     doFirst {
         println 'Trying to build Angular App'
     }
