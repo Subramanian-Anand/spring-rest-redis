@@ -29,7 +29,7 @@ public class RedisSubscriber implements MessageListener {
 
         if(command.equals("set")){
             String redisKey = channel.split(":")[1];
-            String redisValue = crudService.getKeyValue(redisKey).replaceAll("'", "\"");
+            String redisValue = crudService.getKeyValue(redisKey);
             String payload = "{\"rediskey\":\""+redisKey+"\",\"redisvalue\":"+redisValue+"}";
             template.convertAndSend("/keySubscription/" + redisKey, payload);
         }
