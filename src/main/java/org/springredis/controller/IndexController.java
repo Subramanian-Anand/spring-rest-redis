@@ -12,4 +12,9 @@ public class IndexController {
     public String getIndexPage() {
         return "redirect:/swagger-ui.html";
     }
+
+    @GetMapping("/monitor")
+    public String redirectToMonitor() {
+        return "redirect:/index.html";
+    }
 }

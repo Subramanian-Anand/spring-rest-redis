@@ -25,3 +25,8 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### Angular related ###
+*node_modules*
+*dist*
+/src/main/resources/static/
