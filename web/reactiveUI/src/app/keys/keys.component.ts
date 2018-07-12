@@ -73,11 +73,16 @@ export class KeysComponent implements OnInit {
 
   webSocketSubscriber(keysData) {
     var that = this
-    keysData.forEach((key, index) => {
+    var async = require('async')
+    async.forEach(keysData, function(key, cb) {
+      var flag = false
       that.stompClient.subscribe('/keySubscription/'+ key, function (data) {
-          console.log(data.body)
+          //console.log(data.body)
+          if(!flag){
+            flag = true;
+            cb(null)
+          }
           var json = JSON.parse(data.body);
-          console.log('json.redisvalue', json.redisvalue)
           that.keyval[key] = json.redisvalue;
       });
       that.stompClient.send("/app/hello/" + key, {}, JSON.stringify({}));

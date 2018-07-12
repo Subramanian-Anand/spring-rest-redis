@@ -27,6 +27,10 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-redis')
     compile('org.springframework.boot:spring-boot-starter-data-redis-reactive')
+    compile('org.apache.commons:commons-pool2:2.0')
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('org.projectlombok:lombok')
