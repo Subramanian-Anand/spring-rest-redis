@@ -7,13 +7,10 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springredis.services.CRUDService;
-import springfox.documentation.spring.web.json.Json;
-
-import java.util.Arrays;
 
 @Service
 @Log4j2
-public class RedisSubscriber implements MessageListener {
+public class RedisCallback implements MessageListener {
     @Autowired
     private SimpMessagingTemplate template;
     @Autowired

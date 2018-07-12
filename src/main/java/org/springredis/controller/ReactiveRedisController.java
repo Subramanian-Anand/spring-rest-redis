@@ -2,8 +2,6 @@ package org.springredis.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -12,18 +10,11 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import org.springredis.services.CRUDService;
-
-import javax.annotation.Resource;
-import java.util.Date;
 
 @Controller
 @Log4j2
-public class GreetingController {
+public class ReactiveRedisController {
 
     @Autowired
     private RedisMessageListenerContainer redisMessageListenerContainer;
@@ -32,7 +23,7 @@ public class GreetingController {
     @Autowired
     private CRUDService crudService;
 
-    @MessageMapping("/hello/{rediskey}")
+    @MessageMapping("/initSubscription/{rediskey}")
     @SendTo("/keySubscription/{rediskey}")
     @CrossOrigin
     public String greeting(@DestinationVariable("rediskey") String redisKey) throws Exception {

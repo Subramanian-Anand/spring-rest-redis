@@ -53,7 +53,7 @@ export class KeysComponent implements OnInit {
 
   startMonitor(){
     var that = this
-    var socket = new SockJS(that.domainUrlPrefix+'gs-guide-websocket');
+    var socket = new SockJS(that.domainUrlPrefix+'reactive-redis-websocket');
     that.stompClient = Stomp.over(socket);
     that.stompClient.debug = null;
     that.stompClient.connect({}, function (frame) {
@@ -85,7 +85,7 @@ export class KeysComponent implements OnInit {
           var json = JSON.parse(data.body);
           that.keyval[key] = json.redisvalue;
       });
-      that.stompClient.send("/app/hello/" + key, {}, JSON.stringify({}));
+      that.stompClient.send("/sendToServer/initSubscription/" + key, {}, JSON.stringify({}));
     });
   }
 
