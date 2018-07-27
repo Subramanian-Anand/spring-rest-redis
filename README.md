@@ -25,6 +25,8 @@ URL | Description | Example
 **/monitor** | This is a sample page which notifies on a key change in Redis and updates it in a table | */monitor
 
 ## WebSocket Integration
+**Note:-** CONFIG SET notify-keyspace-events KEA
+Run the above command in Redis before starting the jar. This will be added as default in future versions.
 In this project websockets are craeted using **SockJs** and **Stomp** which are pretty much the standard<br>
 **SockJs** - https://cdnjs.com/libraries/sockjs-client <br>
 **Stomp** - https://cdnjs.com/libraries/stomp.js/
@@ -74,6 +76,7 @@ https://hub.docker.com/r/gtskaushik/spring-rest-redis/ <br>
     * Socket on timeseries list
 3. SSE enabled get on a key pattern
 4. Socket enabled get on a key pattern
+5. Programatically set keyspace notifications
 
 
 
