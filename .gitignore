@@ -29,4 +29,4 @@
 ### Angular related ###
 *node_modules*
 *dist*
-/src/main/resources/static/
+*src/main/resources/static/*
