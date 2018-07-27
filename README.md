@@ -58,6 +58,9 @@ gradle bootJar
 Jar is present in ***spring-rest-redis/build/libs/*** <br>
 The above command will build angular project and make it as part of Spring Boot application.<br>
 Refer to ***springAngularMerge*** task in build.gradle file
+### Available in Docker
+https://hub.docker.com/r/gtskaushik/spring-rest-redis/ <br>
+**Note:-** Requires Redis
 
 ## Road Map
 1. Delete with pattern
