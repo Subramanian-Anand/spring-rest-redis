@@ -26,6 +26,15 @@ repositories {
     mavenCentral()
 }
 
+// This will make sure that jar task runs even though there is a bootJar task
+jar {
+    enabled = true
+}
+// This makes sure that bootJar task does not create a jar with the same name as jar task
+bootJar {
+    classifier = 'boot'
+}
+
 // Publish to local maven repo
 publishing {
     publications {
