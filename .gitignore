@@ -30,3 +30,6 @@
 *node_modules*
 *dist*
 *src/main/resources/static/*
+
+### Mac Os ###
+.DS_Store
