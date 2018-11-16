@@ -20,7 +20,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'maven-publish'
-
+//******************** Angular Part ********************
 node {
     // Version of node to use.
     version = '10.13.0'
@@ -45,28 +45,40 @@ node {
     nodeModulesDir = file("${project.projectDir}/web/reactiveUI")
 }
 
-//npm_install.dependsOn(npm_cache_clean)
-task buildAngularProject(type: NpmTask) {
-    // Runs the build script from package.json
-    args = ['run-script', 'build_prod']
-}
-buildAngularProject.dependsOn(npmInstall)
-
-task springAngularMerge() {
-    delete "src/main/resources/static"
-    mkdir 'src/main/resources/static'
-    copy {
-        from 'web/reactiveUI/dist/reactiveUI/'
-        into 'src/main/resources/static/'
+task cleanProject {
+    doFirst {
+        delete "web/reactiveUI/node_modules"
+        delete "web/reactiveUI/dist"
+        delete "src/main/resources/static"
     }
     doLast {
-        println 'Merged the Angular binaries into Spring Boot'
+        println "Cleaned the following\n\tweb/reactiveUI/node_modules\n\tweb/reactiveUI/dist\n\tsrc/main/resources/static"
     }
 }
-springAngularMerge.dependsOn(buildAngularProject)
-compileJava.dependsOn(springAngularMerge)
 
-build.dependsOn(publishToMavenLocal)
+task buildAngularProject(type: NpmTask) {
+    doFirst {
+        println "Building Angular Project..."
+        // Runs the build script from package.json
+        args = ['run-script', 'build_prod']
+    }
+}
+
+task springAngularMerge() {
+    doFirst {
+        println "Cleaning resources in Spring Boot..."
+        delete "src/main/resources/static"
+        mkdir 'src/main/resources/static'
+        copy {
+            from 'web/reactiveUI/dist/reactiveUI/'
+            into 'src/main/resources/static/'
+        }
+    }
+    doLast {
+        println 'Merged the Angular binaries into Spring Boot...'
+    }
+}
+//******************** Angular Part End ********************
 
 group = 'org.springredis'
 version = '0.0.1-SNAPSHOT'
@@ -94,6 +106,13 @@ publishing {
         }
     }
 }
+
+//Building Gradle dependency tree
+clean.dependsOn(cleanProject)
+buildAngularProject.dependsOn(npmInstall)
+springAngularMerge.dependsOn(buildAngularProject)
+compileJava.dependsOn(springAngularMerge)
+build.dependsOn(publishToMavenLocal)
 
 
 dependencies {
@@ -124,33 +143,3 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
 }
-
-//task angularBuild() {
-//    doFirst {
-//        println 'Trying to build Angular App'
-//    }
-//    exec{
-//        workingDir 'web/reactiveUI/'
-//        commandLine 'npm', 'install'
-//    }
-//    exec{
-//        workingDir 'web/reactiveUI/'
-//        commandLine 'ng', 'build', '--prod', '--output-hashing', 'none'
-//    }
-//    doLast {
-//        println 'Angular Build Completed'
-//    }
-//}
-//
-//task springAngularMerge() {
-//    tasks.angularBuild.execute()
-//    delete "src/main/resources/static"
-//    mkdir 'src/main/resources/static'
-//    copy {
-//        from 'web/reactiveUI/dist/reactiveUI/'
-//        into 'src/main/resources/static/'
-//    }
-//    doLast {
-//        println 'Merged the Angular binaries into Spring Boot'
-//    }
-//}
