@@ -33,11 +33,11 @@ jobs:
 
     - run:
         name: List Gradle Tasks
-        command: gradle -m build
+        command: gradle -m clean build
 
     - run:
         name: Running Gradle Build
-        command: gradle build
+        command: gradle clean build
 
     - save_cache:
         paths:
