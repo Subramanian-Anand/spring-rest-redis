@@ -7,7 +7,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 public class IndexController {
 
-    @GetMapping("/")
+    @GetMapping("/swagger")
     @ApiIgnore
     public String getIndexPage() {
         return "redirect:/swagger-ui.html";
