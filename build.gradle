@@ -111,7 +111,8 @@ publishing {
 clean.dependsOn(cleanProject)
 buildAngularProject.dependsOn(npmInstall)
 springAngularMerge.dependsOn(buildAngularProject)
-compileJava.dependsOn(springAngularMerge)
+if(System.getProperty("buildUI") == null || System.getProperty("buildUI") == "yes")
+    compileJava.dependsOn(springAngularMerge)
 build.dependsOn(publishToMavenLocal)
 
 
