@@ -2,6 +2,8 @@ package org.springredis.services;
 
 import java.util.Set;
 
+import org.springredis.validator.RedisKey;
+
 public interface CRUDService {
     String getKeyValue(String redisKey) throws RedisConnectionFailure;
 
@@ -11,5 +13,5 @@ public interface CRUDService {
 
     boolean containsKeyValue(String redisKey) throws RedisConnectionFailure;
 
-    Set<String> listKeys(String pattern) throws RedisConnectionFailure;
+    Set<String> listKeys(@RedisKey String pattern) throws RedisConnectionFailure;
 }

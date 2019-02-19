@@ -17,4 +17,6 @@ public class RedisConfig {
     private String pass;
     @Value("${redis.timeout:10000}")
     private int timeout;
+    @Value("${isRestricted:false}")
+    private boolean isRestricted;
 }

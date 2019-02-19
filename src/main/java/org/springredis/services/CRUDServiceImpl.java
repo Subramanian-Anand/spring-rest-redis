@@ -1,13 +1,17 @@
 package org.springredis.services;
 
+import java.util.Set;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import org.springredis.validator.RedisKey;
 
-import javax.annotation.Resource;
-import java.util.Set;
-
+@Validated
 @Service
 public class CRUDServiceImpl implements CRUDService {
     @Autowired
@@ -53,7 +57,7 @@ public class CRUDServiceImpl implements CRUDService {
     }
 
     @Override
-    public Set<String> listKeys(String pattern) throws RedisConnectionFailure {
+    public Set<String> listKeys(@RedisKey String pattern) throws RedisConnectionFailure {
         try {
             return this.template.keys(pattern);
         } catch (Exception e) {

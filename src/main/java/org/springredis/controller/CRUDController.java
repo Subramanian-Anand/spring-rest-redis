@@ -1,13 +1,27 @@
 package org.springredis.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springredis.services.CRUDService;
-
 import java.util.Set;
 
+import javax.validation.ConstraintViolationException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
+import org.springredis.services.CRUDService;
+import org.springredis.validator.RedisKey;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Validated
 @RestController
 @Api(value = "Redis Crud Controller", description = "This allows to perform CRUD operations on Redis along with searching keys")
 public class CRUDController {
@@ -15,28 +29,33 @@ public class CRUDController {
     @Autowired
     CRUDService crudService;
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ApiOperation("This will get the value of the rediskey passed in the url")
     @GetMapping(value = "/get/{rediskey}")
-    public String getKeyValue(@PathVariable("rediskey") String redisKey) {
+    public String getKeyValue(@PathVariable("rediskey") @RedisKey String redisKey) {
         return this.crudService.getKeyValue(redisKey);
     }
 
     @ApiOperation("This is set the value for rediskey as redisvalue")
     @PutMapping(value = "/set/{rediskey}/{redisvalue}")
-    public boolean setKeyValue(@PathVariable("rediskey") String redisKey, @PathVariable("redisvalue") String redisValue) {
+    public boolean setKeyValue(@PathVariable("rediskey") @RedisKey String redisKey, @PathVariable("redisvalue") String redisValue) {
         return this.crudService.setKeyValue(redisKey, redisValue);
     }
 
     @ApiOperation("This will check if the given key is present in Redis")
     @GetMapping("/has/{rediskey}")
-    public boolean hasKeyValue(@PathVariable("rediskey") String redisKey) {
+    public boolean hasKeyValue(@PathVariable("rediskey") @RedisKey String redisKey) {
         return this.crudService.containsKeyValue(redisKey);
     }
 
     @ApiOperation("This will delete the rediskey passed in the url")
     @PutMapping(value = "/delete/{rediskey}")
 
-    public boolean deleteKey(@PathVariable("rediskey") String redisKey) {
+    public boolean deleteKey(@PathVariable("rediskey") @RedisKey String redisKey) {
         return this.crudService.deleteKeyValue(redisKey);
     }
 
