@@ -43,6 +43,22 @@ export class KeysComponent implements OnInit {
 
 
   constructor(private http: HttpClient) {
+    const configFromStorage = localStorage.getItem('config')
+    if (configFromStorage && JSON.parse(configFromStorage).hasOwnProperty('redisKeyPattern')
+      && JSON.parse(configFromStorage).hasOwnProperty('tableConfig')) {
+        this.keypattern = JSON.parse(configFromStorage)['redisKeyPattern']
+        this.tblConf = JSON.parse(configFromStorage)['tableConfig']
+    } else {
+      this.http.get(this.domainUrlPrefix + 'getAppConfig').subscribe(config => {
+        if (config.hasOwnProperty('redisKeyPattern')) {
+          this.keypattern = config['redisKeyPattern']
+        }
+
+        if (config.hasOwnProperty('tableConfig')) {
+          this.tblConf = config['tableConfig']
+        }
+      })
+    }
   }
 
   initTbl() {
@@ -52,6 +68,10 @@ export class KeysComponent implements OnInit {
   }
 
   startMonitor(){
+    localStorage.setItem('config', JSON.stringify({
+      'redisKeyPattern': this.keypattern,
+      'tableConfig': this.tblConf
+    }));
     var that = this
     var socket = new SockJS(that.domainUrlPrefix+'reactive-redis-websocket');
     that.stompClient = Stomp.over(socket);

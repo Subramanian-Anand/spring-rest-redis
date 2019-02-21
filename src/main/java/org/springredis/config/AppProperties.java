@@ -9,4 +9,10 @@ import org.springframework.stereotype.Component;
 public class AppProperties {
     @Value("${isRestricted:false}")
     private boolean restricted;
+
+    @Value("${redisKeyPattern:*key}")
+    private String redisKeyPattern;
+
+    @Value("${tableConfig:{\"RedisKey\": \"rediskey\", \"RedisValue\": \"redisvalue\"}}")
+    private String tableConfig;
 }
